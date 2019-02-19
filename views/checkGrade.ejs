@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %> - 学生成绩管理系统</title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+  </head>
+  <body>
+    <%- include('navbar') %>
+    <% if (flash_success != '') { %>
+      <div class="alert alert-success">
+        <%= flash_success %>
+      </div>
+    <% } %>
+    <% if (flash_error != '') { %>
+      <div class="alert alert-danger">
+        <%= flash_error %>
+      </div>
+    <% } %>
+    <div class="container">
+      <div style="padding: 0" class="container">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">所有课程成绩</h3>
+          </div>
+          <div class="panel-body">
+            <table class="table table-bordered table-hover table-condensed">
+              <tr>
+                <th>课程编号</th>
+                <th>课程名称</th>
+                <th>任课教师</th>
+                <th>学分</th>
+                <th>成绩</th>
+              </tr>
+              <% results.forEach(function(c){ %>
+                <%- include('scorelist', {c: c}) %>
+              <% }); %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/javascripts/jquery-3.2.1.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+  </body>
+</html>

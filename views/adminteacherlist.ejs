@@ -1,0 +1,7 @@
+<tr>
+  <td><%- t.teacherId %></td>
+  <td><%- t.tname %></td>
+  <td><%- t.tschool %></td>
+  <td><button class="btn btn-danger" onclick="adminDeleteTeacherModalHandler('<%- t.teacherId %>')">删除</button></td>
+  <td><button class="btn btn-default" onclick="adminUpdateTeacherModalHandler('<%- t.teacherId %>', '<%- t.tname %>', '<%- t.tschool %>')">修改</button></td>
+</tr>

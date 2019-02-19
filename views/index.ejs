@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %> - 学生成绩管理系统</title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+  </head>
+  <body>
+    <%- include('navbar') %>
+    <% if (flash_success != '') { %>
+      <div class="alert alert-success">
+        <%= flash_success %>
+      </div>
+    <% } %>
+    <% if (flash_error != '') { %>
+      <div class="alert alert-danger">
+        <%= flash_error %>
+      </div>
+    <% } %>
+    <div class="container">
+    </div>
+    <script src="/javascripts/jquery-3.2.1.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+  </body>
+</html>

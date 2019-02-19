@@ -1,0 +1,8 @@
+<tr>
+  <td><%- c.courseId %></td>
+  <td><%- c.courseName %></td>
+  <td><%- c.credit %></td>
+  <td><button class="btn btn-danger" onclick="adminDeleteCourseModalHandler('<%- c.courseId %>')">删除</button></td>
+  <td><button class="btn btn-default" onclick="adminUpdateCourseModalHandler('<%- c.courseId %>', '<%- c.courseName %>', <%- c.credit %>, <%- c.grade %>, '<%- c.school %>', <%- c.size %>)">修改</button></td>
+  <td><button class="btn btn-default" onclick="adminAssignModalHandler('<%- c.courseId %>')">安排教师</button></td>
+</tr>

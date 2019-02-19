@@ -1,0 +1,10 @@
+<tr>
+  <td><%- s.studentId %></td>
+  <td><%- s.sname %></td>
+  <td><%- s.ssex %></td>
+  <td><%- s.sschool %></td>
+  <td><%- s.sclass %></td>
+  <td><%- s.grade %></td>
+  <td><button class="btn btn-danger" onclick="adminDeleteStudentModalHandler('<%- s.studentId %>')">删除</button></td>
+  <td><button class="btn btn-default" onclick="adminUpdateStudentModalHandler('<%- s.studentId %>', '<%- s.sname %>', '<%- s.ssex %>', '<%- s.sschool %>', '<%- s.sclass %>', '<%- s.grade %>')">修改</button></td>
+</tr>

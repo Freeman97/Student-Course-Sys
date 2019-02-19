@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %> - 学生成绩管理系统</title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+  </head>
+  <body>
+    <%- include('adminNavBar') %>
+    <% if (flash_success != '') { %>
+      <div class="alert alert-success">
+        <%= flash_success %>
+      </div>
+    <% } %>
+    <% if (flash_error != '') { %>
+      <div class="alert alert-danger">
+        <%= flash_error %>
+      </div>
+    <% } %>
+    <div style="padding: 0" class="container">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">学生信息</h3>
+        </div>
+        <div class="panel-body">
+          <button class="btn btn-default btn-lg btn-block" onclick="adminAddStudentModalHandler()">增加学生信息</button>
+          <table class="table table-bordered table-hover table-condensed">
+            <tr>
+              <th>学号</th>
+              <th>姓名</th>
+              <th>性别</th>
+              <th>学院</th>
+              <th>班级</th>
+              <th>年级</th>
+              <th>删除此学生信息</th>
+              <th>修改</th>
+            </tr>
+            <% student.forEach(function(s){ %>
+              <%- include('adminstudentlist', {s: s}) %>
+            <% }); %>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!--Modals-->
+    <!--Delete Hint-->
+    <div class="modal fade" id="delete-modal" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">确定要删除吗?</h4>
+          </div>
+          <div class="modal-body">
+            <p>选择删除此学生信息后, 系统会删除与此学生相关的选课信息</p>
+            <p>确定要删除学生 <span id="delete-span"></span> 的信息吗?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-danger" id="delete">确认删除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Add-->
+    <div class="modal fade" id="add-modal" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">添加学生信息</h4>
+          </div>
+          <div class="modal-body">
+            <form id="add-student" method="POST" action="/smanage/addStudent">
+              <div class="form-group">
+                <label for="studentId">学号(不可重复)</label>
+                <input class="form-control" name="studentId" required>
+              </div>
+              <div class="form-group">
+                <label for="studentPw">登录密码</label>
+                <input class="form-control" name="studentPw" required>
+              </div>
+              <div class="form-group">
+                <label for="sname">姓名</label>
+                <input class="form-control" name="sname" required>
+              </div>
+              <div class="form-group">
+                <label for="ssex">性别</label>
+                <input class="form-control" name="ssex" required>
+              </div>
+              <div class="form-group">
+                <label for="sschool">学院</label>
+                <input class="form-control" name="sschool" required>
+              </div>
+              <div class="form-group">
+                <label for="sclass">班级</label>
+                <input class="form-control" name="sclass" required>
+              </div>
+              <div class="form-group">
+                <label for="grade">年级</label>
+                <input class="form-control" name="grade" required>
+              </div>
+              <button class="btn btn-default" data-dismiss="modal">取消</button>
+              <button class="btn btn-primary" type="submit">提交</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--update-->
+    <div class="modal fade" id="update-modal" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">修改学生信息</h4>
+          </div>
+          <div class="modal-body">
+            <form id="update-student" method="POST" action="/smanage/updateStudent">
+              <div class="form-group">
+                <label for="studentId">学号(不可重复)</label>
+                <input id="mstudentId" class="form-control" name="studentId" required>
+              </div>
+              <div class="form-group">
+                  <label for="studentPw">登录密码</label>
+                  <input class="form-control" name="studentPw" placeholder="旧密码">
+                </div>
+              <div class="form-group">
+                <label for="sname">姓名</label>
+                <input id="msname" class="form-control" name="sname" required>
+              </div>
+              <div class="form-group">
+                <label for="ssex">性别</label>
+                <input id="mssex" class="form-control" name="ssex" required>
+              </div>
+              <div class="form-group">
+                <label for="sschool">学院</label>
+                <input id="msschool" class="form-control" name="sschool" required>
+              </div>
+              <div class="form-group">
+                <label for="sclass">班级</label>
+                <input id="msclass" class="form-control" name="sclass" required>
+              </div>
+              <div class="form-group">
+                <label for="grade">年级</label>
+                <input id="mgrade" class="form-control" name="grade" required>
+              </div>
+              <button class="btn btn-default" data-dismiss="modal">取消</button>
+              <button class="btn btn-primary" type="submit">提交</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/javascripts/jquery-3.2.1.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/chooseHandler.js"></script>
+  </body>
+</html>

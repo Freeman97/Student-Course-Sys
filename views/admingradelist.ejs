@@ -1,0 +1,11 @@
+<tr>
+  <td><%- g.studentId %></td>
+  <td><%- g.sname %></td>
+  <td><%- g.courseId %></td>
+  <td><%- g.courseName %></td>
+  <td><%- g.teacherId %></td>
+  <td><%- g.tname %></td>
+  <td><%- g.score %></td>
+  <td><button class="btn btn-danger" onclick="adminDeleteScoreModalHandler('<%- g.courseId %>', '<%- g.studentId %>', '<%- g.teacherId %>')">删除</button></td>
+  <td><button class="btn btn-default" onclick="adminUpdateScoreModalHandler('<%- g.courseId %>', '<%- g.studentId %>', '<%- g.teacherId %>', '<%- g.score %>')">登记成绩</button></td>
+</tr>

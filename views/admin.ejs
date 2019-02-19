@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %> - 学生成绩管理系统</title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+  </head>
+  <body>
+    <%- include('adminNavBar') %>
+    <% if (flash_success != '') { %>
+      <div class="alert alert-success">
+        <%= flash_success %>
+      </div>
+    <% } %>
+    <% if (flash_error != '') { %>
+      <div class="alert alert-danger">
+        <%= flash_error %>
+      </div>
+    <% } %>
+    <div style="padding: 0" class="container">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">已有课程</h3>
+        </div>
+        <div class="panel-body">
+          <button class="btn btn-default btn-lg btn-block" onclick="adminAddCourseModalHandler()">增加课程</button>
+          <table class="table table-bordered table-hover table-condensed">
+            <tr>
+              <th>课程编号</th>
+              <th>课程名称</th>
+              <th>学分</th>
+              <th>删除</th>
+              <th>修改</th>
+              <th>安排教师</th>
+            </tr>
+            <% course.forEach(function(c){ %>
+              <%- include('admincourselist', {c: c, buttontext: '选课'}) %>
+            <% }); %>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!--Modals-->
+    <!--Delete Hint-->
+    <div class="modal fade" id="delete-modal" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">确定要删除吗?</h4>
+          </div>
+          <div class="modal-body">
+            <p>选择删除此课程信息后, 系统会自动删除与此课程相关教师授课信息和学生选课信息</p>
+            <p>确定要删除课程 <span id="delete-span"></span> 吗?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-danger" id="delete">确认删除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Add-->
+    <div class="modal fade" id="add-modal" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">添加课程</h4>
+          </div>
+          <div class="modal-body">
+              <form id="add-course" method="POST" action="/admin/addCourse">
+                <div class="form-group">
+                  <label for="courseId">课程编号(不可重复)</label>
+                  <input class="form-control" name="courseId" required>
+                </div>
+                <div class="form-group">
+                  <label for="courseName">课程名称</label>
+                  <input class="form-control" name="courseName" required>
+                </div>
+                <div class="form-group">
+                  <label for="credit">课程学分</label>
+                  <input class="form-control" name="credit" required>
+                </div>
+                <div class="form-group">
+                  <label for="grade">开课年级</label>
+                  <input class="form-control" name="grade" required>
+                </div>
+                <div class="form-group">
+                  <label for="school">面向学院</label>
+                  <input class="form-control" name="school" required>
+                </div>
+                <div class="form-group">
+                  <label for="size">课程容量</label>
+                  <input class="form-control" name="size">
+                </div>
+                <button class="btn btn-default" data-dismiss="modal">取消</button>
+                <button class="btn btn-primary" type="submit">提交</button>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--update-->
+    <div class="modal fade" id="update-modal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">修改课程</h4>
+            </div>
+            <div class="modal-body">
+                <form id="update-course" method="POST" action="/admin/updateCourse">
+                  <div class="form-group">
+                    <label for="courseId">课程编号(不可重复)</label>
+                    <input id="mcourseId" class="form-control" name="courseId" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="courseName">课程名称</label>
+                    <input id="mcourseName" class="form-control" name="courseName" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="credit">课程学分</label>
+                    <input id="mcredit" class="form-control" name="credit" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="grade">开课年级</label>
+                    <input id="mgrade" class="form-control" name="grade" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="school">面向学院</label>
+                    <input id="mschool" class="form-control" name="school" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="size">课程容量</label>
+                    <input id="msize" class="form-control" name="size">
+                  </div>
+                  <button class="btn btn-default" data-dismiss="modal">取消</button>
+                  <button class="btn btn-primary" type="submit">提交</button>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--add teacher-course relationship-->
+      <div class="modal fade" id="addtc-modal" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">为此课程添加教师</h4>
+            </div>
+            <div class="modal-body">
+              <p>为课程添加教师后此课程将会在学生端放出以供选课</p>
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">已添加至此课程的教师</h3>
+                </div>
+                <div class="panel-body">
+                  <table class="table table-bordered table-hover table-condensed">
+                    <tr>
+                      <th>教师编号</th>
+                      <th>教师名称</th>
+                      <th>所属学院</th>
+                      <th>删除安排</th>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <form id="add-tc" method="POST" action="/admin/addTc">
+                <input id="tccourseId" name="courseId" style="display: none">
+                <div class="form-group">
+                  <label for="teacherId">教师编号(不可重复添加)</label>
+                  <input id="teacherId" class="form-control" name="teacherId" required>
+                </div>
+                <button class="btn btn-default" data-dismiss="modal">取消</button>
+                <button class="btn btn-primary" type="submit">提交</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    <script src="/javascripts/jquery-3.2.1.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/chooseHandler.js"></script>
+  </body>
+</html>
