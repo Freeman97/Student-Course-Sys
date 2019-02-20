@@ -71,7 +71,7 @@ User.prototype.quitCourse = function(courseId, teacherId, callback) {
 }
 
 User.prototype.queryCourseScore = function(callback) {
-  connection.query('SELECT stc.studentId, stc.teacherId, stc.score, teacher.tname, course.* FROM teacher, course, stc WHERE stc.courseId = course.courseId AND stc.teacherId = teacher.teacherId AND stc.score IS NOT NULL AND stc.studentId = ?', this.studentId, function(err, results, fields) {
+  connection.query('SELECT stc.studentId, stc.teacherId, stc.score, teacher.tname, course.*, rank(stc.courseId, stc.studentId, stc.teacherId) as rank FROM teacher, course, stc WHERE stc.courseId = course.courseId AND stc.teacherId = teacher.teacherId AND stc.score IS NOT NULL AND stc.studentId = ?', this.studentId, function(err, results, fields) {
     if (err != null) {
       return callback(err);
     } else {

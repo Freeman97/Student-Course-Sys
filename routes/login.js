@@ -37,7 +37,7 @@ router.post('/', function(req, res, next) {
       console.log(req.session);
       req.session.user = new User(results[0]);
       console.log(req.session.user);
-      req.flash('flash_success', '登陆成功')
+      req.flash('flash_success', req.body.studentId + ' ' + '登陆成功')
       res.redirect('/');
     });
   } 

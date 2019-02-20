@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `scsys` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `scsys`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: scsys
@@ -65,7 +63,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES ('000001','数据库应用',4,100,3,'数学学院'),('000002','数理统计',4,NULL,3,'数学学院'),('000003','运筹学',4,NULL,3,'数学学院'),('000004','面向对象程序设计',3,NULL,3,'数学学院'),('100001','计算机网络',4,NULL,3,'计算机科学与工程学院'),('100002','计算机图形学',3,NULL,4,'计算机科学与工程学院');
+INSERT INTO `course` VALUES ('000001','数据库应用',4,100,3,'数学学院'),('000002','数理统计',4,NULL,3,'数学学院'),('000003','运筹学',4,NULL,3,'数学学院'),('000004','面向对象程序设计',3,NULL,3,'数学学院'),('000005','实变函数',4,NULL,3,'数学学院'),('100001','计算机网络',4,NULL,3,'计算机科学与工程学院'),('100002','计算机图形学',3,NULL,4,'计算机科学与工程学院');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +88,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('zmCsduMnQcXYDYolpgyDP4_h_AGRGrtD',1550595082,'{\"cookie\":{\"originalMaxAge\":3600000,\"expires\":\"2019-02-19T16:51:22.427Z\",\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"admin\":null,\"user\":null}');
+INSERT INTO `sessions` VALUES ('DklC7-HR8m5bElcQKO8EYGaxZfOUFxNO',1550634216,'{\"cookie\":{\"originalMaxAge\":3599999,\"expires\":\"2019-02-20T03:43:35.927Z\",\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"user\":null,\"admin\":null}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +119,7 @@ CREATE TABLE `stc` (
 
 LOCK TABLES `stc` WRITE;
 /*!40000 ALTER TABLE `stc` DISABLE KEYS */;
-INSERT INTO `stc` VALUES ('000001','201612345678','201951354687',86),('000001','201630461067','201951354687',91),('000001','201687654321','201951354687',80),('000002','201612345678','201987654321',79),('000002','201630461067','201987654321',77),('000002','201687654321','201987654321',60),('000003','201612345678','201956785678',77),('000003','201630461067','201956785678',72),('000003','201687654321','201956785678',62),('100002','201656785678','201912341234',75);
+INSERT INTO `stc` VALUES ('000001','201612345678','201951354687',86),('000001','201630461067','201951354687',91),('000001','201687654321','201951354687',80),('000002','201612345678','201987654321',79),('000002','201630461067','201987654321',77),('000002','201687654321','201987654321',60),('000003','201612345678','201956785678',77),('000003','201630461067','201956785678',72),('000003','201687654321','201956785678',62),('000005','201630461067','201911111111',NULL),('100002','201656785678','201912341234',75);
 /*!40000 ALTER TABLE `stc` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,7 +175,7 @@ CREATE TABLE `tc` (
 
 LOCK TABLES `tc` WRITE;
 /*!40000 ALTER TABLE `tc` DISABLE KEYS */;
-INSERT INTO `tc` VALUES ('100001','201912341234'),('100002','201912341234'),('000001','201912345678'),('000004','201943214321'),('000001','201951354687'),('000002','201956785678'),('000003','201956785678'),('000002','201987654321');
+INSERT INTO `tc` VALUES ('000005','201911111111'),('100001','201912341234'),('100002','201912341234'),('000001','201912345678'),('000004','201943214321'),('000001','201951354687'),('000002','201956785678'),('000003','201956785678'),('000002','201987654321');
 /*!40000 ALTER TABLE `tc` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,9 +219,37 @@ CREATE TABLE `teacher` (
 
 LOCK TABLES `teacher` WRITE;
 /*!40000 ALTER TABLE `teacher` DISABLE KEYS */;
-INSERT INTO `teacher` VALUES ('201912341234','贺小箭','计算机科学与工程学院'),('201912345678','陆子强','数学学院'),('201943214321','梁景鸿','数学学院'),('201951354687','吴广潮','数学学院'),('201956785678','贲树军','数学学院'),('201987654321','何志坚','数学学院');
+INSERT INTO `teacher` VALUES ('201911111111','熊瑛','数学学院'),('201912341234','贺小箭','计算机科学与工程学院'),('201912345678','陆子强','数学学院'),('201943214321','梁景鸿','数学学院'),('201951354687','吴广潮','数学学院'),('201956785678','贲树军','数学学院'),('201987654321','何志坚','数学学院');
 /*!40000 ALTER TABLE `teacher` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'scsys'
+--
+/*!50003 DROP FUNCTION IF EXISTS `rank` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `rank`(courseId char(6), studentId char(12), teacherId char(12)) RETURNS int(11)
+begin
+        return(select b.rownum from
+        (
+			select t.*, @rownum := @rownum + 1 AS rownum
+            from (select @rownum := 0) r,
+            (select * from stc where stc.courseId = courseId and stc.teacherId = teacherId and stc.score is not null order by score desc) as t
+        ) as b where b.studentId = studentId);
+        end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Final view structure for view `tcfull`
@@ -252,4 +278,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-20  0:23:57
+-- Dump completed on 2019-02-20 10:48:30
