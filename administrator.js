@@ -28,6 +28,19 @@ Administrator.getCourses = function getCourses(callback) {
   });
 }
 
+Administrator.searchCourses = function searchCourses(searchBy, keyword, callback) {
+  // 模糊参数化查询
+  var query = 'SELECT * FROM course WHERE ' + connection.escapeId(searchBy) + ' LIKE ' + connection.escape('%' + keyword + '%');
+  console.log(query);
+  connection.query(query, function(err, results, fields) {
+    if (err) {
+      return callback(err);
+    } else {
+      return callback(err, results);
+    }
+  });
+}
+
 Administrator.deleteCourses = function deleteCourses(courseId, callback) {
   connection.query('DELETE FROM course WHERE courseId = ?', courseId, function(err, results, fields) {
     if (err) {

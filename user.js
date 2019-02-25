@@ -1,4 +1,5 @@
 var connection = require('./DBconnect');
+var crypto = require('crypto');
 
 function User(user) {
   this.studentId = user.studentId;
@@ -22,6 +23,22 @@ User.prototype.save = function save(callback) {
 
 User.get = function get(studentId, callback) {
   connection.query('SELECT * FROM student WHERE studentId = ?', studentId, function(err, results, fields) {
+    if (err) {
+      return callback(err);
+    } else {
+      return callback(err, results);
+    }
+  });
+}
+
+User.prototype.updatePersonal = function updatePersonal(user, callback) {
+  var password = this.studentPw;
+  if(user.studentPw != '')
+  {
+    var md5 = crypto.createHash('md5');
+    password = md5.update(user.studentPw).digest('base64');
+  }
+  connection.query('UPDATE student SET studentPw = ?, sname = ?, ssex = ?, sschool = ?, sclass = ?, grade = ? WHERE studentId = ?', [password, user.sname, user.ssex, user.sschool, user.sclass, user.grade, this.studentId], function(err, results, fields) {
     if (err) {
       return callback(err);
     } else {

@@ -17,6 +17,46 @@
       </div>
     <% } %>
     <div class="container">
+      <h2>学生个人信息</h2>
+      <form id="personal" method="POST" action="/updatePersonal">
+        <div class="form-group">
+          <label for="studentId">学号</label>
+          <input value="<%= user.studentId %>" class="form-control" id="studentId" name="studentId" readonly required>
+        </div>
+        <div class="form-group">
+          <label for="studentPw">密码</label>
+          <input placeholder="旧密码" class="form-control" id="studentPw" name="studentPw" type="password">
+        </div>
+        <div class="form-group">
+          <label for="sname">姓名</label>
+          <input value="<%= user.sname %>" class="form-control" id="sname" name="sname" required>
+        </div>
+        <div class="form-group">
+          <label for="ssex">性别</label>
+          <select name="ssex" class="form-control">
+            <% if(user.ssex == '男'){ %>
+              <option value="男" selected>男</option>
+              <option value="女">女</option>
+            <% } else { %>
+              <option value="男">男</option>
+              <option value="女" selected>女</option>
+            <% } %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="sschool">学院</label>
+          <input value="<%= user.sschool %>" class="form-control" id="sschool" name="sschool" required>
+        </div>
+        <div class="form-group">
+          <label for="sclass">班级</label>
+          <input value="<%= user.sclass %>" class="form-control" id="sclass" name="sclass" required>
+        </div>
+        <div class="form-group">
+          <label for="grade">年级</label>
+          <input value="<%= user.grade %>" type="number" class="form-control" id="grade" name="grade" required>
+        </div>
+        <button class="btn btn-primary" type="submit">保存修改</button>
+      </form>
     </div>
     <script src="/javascripts/jquery-3.2.1.min.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>

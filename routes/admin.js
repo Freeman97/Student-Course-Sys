@@ -17,6 +17,21 @@ router.get('/', function(req, res, next) {
   })
 });
 
+router.post('/search', function(req, res, next) {
+  if(req.session.admin == undefined) {
+    req.flash('flash_error', '未登录');
+    return res.redirect('/login');
+  }
+  Administrator.searchCourses(req.body.searchBy, req.body.keyword, function(err, results) {
+    if (err != undefined) {
+      console.log(err);
+      req.flash('flash_error', err.code);
+      return res.redirect('/admin');
+    }
+    return res.render('admin', { title: '管理课程信息', course: results});
+  })
+})
+
 router.post('/deleteCourse', function(req, res, next) {
   if(req.session.admin == undefined) {
     req.flash('flash_error', '未登录');
