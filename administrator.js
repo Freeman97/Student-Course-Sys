@@ -79,10 +79,45 @@ Administrator.updateCourse = function updateCourse(course, callback) {
   });
 }
 
+Administrator.getAssignedTeacher = function getAssignedTeacher(courseId, callback) {
+  console.log(courseId);
+  connection.query('SELECT teacher.* FROM teacher, tc WHERE teacher.teacherId = tc.teacherId AND tc.courseId = ?', courseId, function(err, results, fields) {
+    if (err) {
+      return callback(err, results);
+    } else {
+      console.log(results);
+      return callback(err, results);
+    }
+  });
+}
+
 Administrator.addTc = function addTc(courseId, teacherId, callback) {
   connection.query('INSERT INTO tc VALUES(?, ?)', [courseId, teacherId], function(err, results, fields) {
     if (err) {
       return callback(err, results);
+    } else {
+      return callback(err, results);
+    }
+  });
+}
+
+Administrator.deleteAssignedTeacher = function deleteAssignedTeacher(courseId, teacherId, callback) {
+  connection.query('DELETE FROM tc WHERE tc.teacherId = ? AND tc.courseId = ?', [teacherId, courseId], function(err, results, fields) {
+    if (err) {
+      return callback(err, results);
+    } else {
+      return callback(err, results);
+    }
+  });
+}
+
+Administrator.searchTeachers = function searchTeachers(searchBy, keyword, callback) {
+  // 模糊参数化查询
+  var query = 'SELECT * FROM teacher WHERE ' + connection.escapeId(searchBy) + ' LIKE ' + connection.escape('%' + keyword + '%');
+  console.log(query);
+  connection.query(query, function(err, results, fields) {
+    if (err) {
+      return callback(err);
     } else {
       return callback(err, results);
     }
@@ -143,6 +178,19 @@ Administrator.getSTC = function getSTC(callback) {
   });
 }
 
+Administrator.searchSTC = function searchStudents(searchBy, keyword, callback) {
+  // 模糊参数化查询
+  var query = 'SELECT stc.studentId, stc.teacherId, stc.score, teacher.tname, course.*, student.sname FROM teacher, course, stc, student WHERE stc.studentId = student.studentId AND stc.courseId = course.courseId AND stc.teacherId = teacher.teacherId AND stc.' + connection.escapeId(searchBy) + ' LIKE ' + connection.escape('%' + keyword + '%');
+  console.log(query);
+  connection.query(query, function(err, results, fields) {
+    if (err) {
+      return callback(err);
+    } else {
+      return callback(err, results);
+    }
+  });
+}
+
 Administrator.deleteSTC = function deleteSTC(courseId, studentId, teacherId, callback) {
   connection.query('DELETE FROM stc WHERE courseId = ? AND studentId = ? AND teacherId = ?', [courseId, studentId, teacherId], function(err, results, fields) {
     if (err) {
@@ -167,6 +215,19 @@ Administrator.getStudent = function getStudent(callback) {
   connection.query('SELECT * FROM student', function(err, results, fields) {
     if (err) {
       return callback(err, results);
+    } else {
+      return callback(err, results);
+    }
+  });
+}
+
+Administrator.searchStudents = function searchStudents(searchBy, keyword, callback) {
+  // 模糊参数化查询
+  var query = 'SELECT * FROM student WHERE ' + connection.escapeId(searchBy) + ' LIKE ' + connection.escape('%' + keyword + '%');
+  console.log(query);
+  connection.query(query, function(err, results, fields) {
+    if (err) {
+      return callback(err);
     } else {
       return callback(err, results);
     }

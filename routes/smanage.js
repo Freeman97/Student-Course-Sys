@@ -18,6 +18,21 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/search', function(req, res, next) {
+  if(req.session.admin == undefined) {
+    req.flash('flash_error', '未登录');
+    return res.redirect('/login');
+  }
+  Administrator.searchStudents(req.query.searchBy, req.query.keyword, function(err, results) {
+    if (err != undefined) {
+      console.log(err);
+      req.flash('flash_error', err.code);
+      return res.redirect('/smanage');
+    }
+    return res.render('smanage', { title: '管理学生信息', student: results});
+  })
+})
+
 router.post('/addStudent', function(req, res, next) {
   if(req.session.admin == undefined) {
     req.flash('flash_error', '未登录');

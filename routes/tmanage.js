@@ -17,6 +17,21 @@ router.get('/', function(req, res, next) {
   })
 });
 
+router.get('/search', function(req, res, next) {
+  if(req.session.admin == undefined) {
+    req.flash('flash_error', '未登录');
+    return res.redirect('/login');
+  }
+  Administrator.searchTeachers(req.query.searchBy, req.query.keyword, function(err, results) {
+    if (err != undefined) {
+      console.log(err);
+      req.flash('flash_error', err.code);
+      return res.redirect('/admin');
+    }
+    return res.render('tmanage', { title: '管理教师信息', teacher: results});
+  })
+})
+
 router.post('/addTeacher', function(req, res, next) {
   if(req.session.admin == undefined) {
     req.flash('flash_error', '未登录');

@@ -76,6 +76,50 @@ function adminUpdateCourseModalHandler(courseId, courseName, credit, grade, scho
 function adminAssignModalHandler(courseId) {
   $("#addtc-modal").modal("show");
   $("#tccourseId").val(courseId);
+  $(".assignedTeacher").remove();
+  var data = {
+    courseId: courseId
+  };
+  $.ajax({
+    url: '/admin/getAssignedTeacher',
+    method: 'GET',
+    data: data,
+    success: function(res, jqXHR, textStatus) {
+      console.log(res);
+      var trStart = "<tr class='assignedTeacher'>";
+      var trEnd = "</tr>";
+      var tdStart = "<td>";
+      var tdEnd = "</td>";
+      for(var i = 0; i < res.length; i++)
+      {
+        var el = trStart + tdStart + res[i].teacherId + tdEnd;
+        el += tdStart + res[i].tname + tdEnd;
+        el += tdStart + res[i].tschool + tdEnd;
+        var button = "<button class='btn btn-danger' onclick='adminDeleteAssignHandler(" + res[i].teacherId + ", " + courseId + ")'>删除此安排</button>";
+        el += tdStart + button + tdEnd + trEnd;
+        console.log(el);
+        $("#assignTable").append(el);
+      }
+    }
+  });
+}
+
+function adminDeleteAssignHandler(teacherId, courseId) {
+  var data = {
+    teacherId: teacherId,
+    courseId: courseId
+  }
+  $.ajax({
+    url: '/admin/deleteAssignedTeacher',
+    method: 'GET',
+    data: data,
+    async: false,
+    complete: function(jqXHR, textStatus) {
+      console.log(jqXHR);
+      console.log(textStatus);
+      location.reload();
+    }
+  });
 }
 
 function adminAddTeacherModalHandler() {

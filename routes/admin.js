@@ -17,12 +17,12 @@ router.get('/', function(req, res, next) {
   })
 });
 
-router.post('/search', function(req, res, next) {
+router.get('/search', function(req, res, next) {
   if(req.session.admin == undefined) {
     req.flash('flash_error', '未登录');
     return res.redirect('/login');
   }
-  Administrator.searchCourses(req.body.searchBy, req.body.keyword, function(err, results) {
+  Administrator.searchCourses(req.query.searchBy, req.query.keyword, function(err, results) {
     if (err != undefined) {
       console.log(err);
       req.flash('flash_error', err.code);
@@ -81,6 +81,37 @@ router.post('/updateCourse', function(req, res, next) {
     }
     req.flash('flash_success', '修改成功');
     return res.redirect('/admin');
+  });
+})
+
+router.get('/getAssignedTeacher', function(req, res, next) {
+  if(req.session.admin == undefined) {
+    req.flash('flash_error', '未登录');
+    return res.redirect('/login');
+  }
+  Administrator.getAssignedTeacher(req.query.courseId, function(err, results) {
+    if(err != undefined) {
+      console.log(err);
+      req.flash('flash_error', err.code);
+      return res.redirect('/admin');
+    }
+    return res.send(results);
+  });
+})
+
+router.get('/deleteAssignedTeacher', function(req, res, next) {
+  if(req.session.admin == undefined) {
+    req.flash('flash_error', '未登录');
+    return res.redirect('/login');
+  }
+  Administrator.deleteAssignedTeacher(req.query.courseId, req.query.teacherId, function(err, results) {
+    if(err != undefined) {
+      console.log(err);
+      req.flash('flash_error', err.code);
+      return res.send('failed');
+    }
+    req.flash('flash_success', '删除成功');
+    return res.send('success');
   });
 })
 
