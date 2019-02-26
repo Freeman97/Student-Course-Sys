@@ -58,7 +58,7 @@ User.prototype.queryCourse = function(callback) {
 }
 
 User.prototype.queryChosenCourse = function(callback) {
-  connection.query('SELECT stc.studentId, stc.teacherId, teacher.tname, course.* FROM teacher, course, stc WHERE stc.courseId = course.courseId AND stc.teacherId = teacher.teacherId AND stc.studentId = ?', this.studentId, function(err, results, fields) {
+  connection.query('SELECT stc.studentId, stc.teacherId, teacher.tname, course.* FROM teacher, course, stc WHERE stc.courseId = course.courseId AND stc.teacherId = teacher.teacherId AND stc.score IS NULL AND stc.studentId = ?', this.studentId, function(err, results, fields) {
     if (err != null) {
       return callback(err);
     } else {

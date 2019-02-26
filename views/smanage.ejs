@@ -109,7 +109,10 @@
               </div>
               <div class="form-group">
                 <label for="ssex">性别</label>
-                <input class="form-control" name="ssex" required>
+                <select name="ssex" class="form-control">
+                  <option value="男">男</option>
+                  <option value="女">女</option>
+                </select>
               </div>
               <div class="form-group">
                 <label for="sschool">学院</label>
@@ -142,7 +145,7 @@
             <form id="update-student" method="POST" action="/smanage/updateStudent">
               <div class="form-group">
                 <label for="studentId">学号(不可重复)</label>
-                <input id="mstudentId" class="form-control" name="studentId" required>
+                <input id="mstudentId" class="form-control" name="studentId" readonly required>
               </div>
               <div class="form-group">
                   <label for="studentPw">登录密码</label>
@@ -154,7 +157,10 @@
               </div>
               <div class="form-group">
                 <label for="ssex">性别</label>
-                <input id="mssex" class="form-control" name="ssex" required>
+                <select name="ssex" class="form-control">
+                  <option id="updateSexM" value="男">男</option>
+                  <option id="updateSexF" value="女">女</option>
+                </select>
               </div>
               <div class="form-group">
                 <label for="sschool">学院</label>

@@ -226,7 +226,14 @@ function adminUpdateStudentModalHandler(studentId, sname, ssex, sschool, sclass,
   $("#update-modal").modal("show");
   $("#mstudentId").val(studentId);
   $("#msname").val(sname);
-  $("#mssex").val(ssex);
+  if(ssex == '男')
+  {
+    $("#updateSexM")[0].setAttribute("selected", "true");
+  }
+  else if(ssex == '女')
+  {
+    $("#updateSexF")[0].setAttribute("selected", "true");
+  }
   $("#msschool").val(sschool);
   $("#msclass").val(sclass);
   $("#mgrade").val(grade);
